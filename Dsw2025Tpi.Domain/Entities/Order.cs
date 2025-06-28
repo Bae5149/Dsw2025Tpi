@@ -24,7 +24,6 @@ public class Order: EntityBase
     public string? Notes { get; set; }
     public decimal TotalAmount { get; set; }
     public Guid? CustomerId { get; set; }
-    public Customer? Customer { get; set; }
     public OrderStatus Status { get; set; }
     public ICollection<OrderItem> OrderItems { get; } = new HashSet<OrderItem>();
 }

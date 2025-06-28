@@ -17,6 +17,6 @@ public class OrderItem: EntityBase
     public int Quantity { get; set; }
     public decimal UnitPrice { get; set; }
     public int Subtotal { get; set; }
-    public Product? Product { get; set; }
+    public Product Product { get; set; }
     public Guid OrderId { get; set; }
 }
