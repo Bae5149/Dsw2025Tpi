@@ -57,8 +57,8 @@ public class ProductsManagementService
         if (request.StockQuantity < 1) throw new ArgumentException("Valor para el Stock del producto no válido");
         if (request.Price < 0) throw new ArgumentException("Valor para el precio del producto no válido");
 
-        var product = await _repository.GetById<Product>(request.);
-        if (product == null) throw new EntityNotFoundException($"No se encontro el producto {id} que se desea obtener");
+        var product = await _repository.First<Product>(p => p.Sku == request.Sku);
+        if (product == null) throw new EntityNotFoundException($"No se encontro el producto con Sku = {request.Sku} que se desea obtener");
 
         product = await _repository.Update(product);
         return new ProductModel.Response(product.Id, product.Sku, product.Name, product.CurrentUnitPrice);

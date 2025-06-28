@@ -2,6 +2,7 @@ using Dsw2025Tpi.Application.Dtos;
 using Dsw2025Tpi.Application.Exceptions;
 using Dsw2025Tpi.Application.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
 using ApplicationException = Dsw2025Tpi.Application.Exceptions.ApplicationException;
 
 namespace Dsw2025Tpi.Api.Controllers;
@@ -23,33 +24,42 @@ public class ProductsController : ControllerBase
         try
         {
             var product = await _service.AddProduct(request);
-            return CreatedAtAction(nameof());
+            return CreatedAtAction(null, null);
 
         }
         catch (ArgumentException ae)
         {
             return BadRequest(ae.Message);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            return Problem("Se produjo un error al guardar el producto");
+            return Problem($"Se produjo un error al guardar el producto: {e.Message}");
         }
     }
 
     [HttpGet()]
     public async Task<IActionResult> GetProducts()
     {
-        var products = await _service.GetProducts();
-        if (products == null || !products.Any()) return NoContent();
-        return Ok(products);
+        try
+        { 
+            var products = await _service.GetProducts();
+            if (products == null || !products.Any()) return NoContent();
+            return Ok(products);
+        }
+        catch (Exception e)
+        {
+
+            return Problem($"Se produjo un error al guardar el producto: {e.Message}");
+
+        }
     }
 
     [HttpPost("{id}")]
-    public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductModel.Request request)
+    public async Task<IActionResult> UpdateProduct([FromBody] ProductModel.Request request)
     {
         try
         {
-            var product = await _service.UpdateProduct(id, request);
+            var product = await _service.UpdateProduct(request);
             return Ok(product);
         }
         catch (ArgumentException ae)
@@ -78,6 +88,12 @@ public class ProductsController : ControllerBase
         {
 
             return NotFound(en.Message);
+
+        }
+        catch (Exception e)
+        {
+
+            return Problem($"Se produjo un error al guardar el producto: {e.Message}");
 
         }
 
