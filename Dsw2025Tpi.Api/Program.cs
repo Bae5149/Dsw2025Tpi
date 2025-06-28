@@ -6,6 +6,7 @@ using Dsw2025Tpi.Domain;
 using Dsw2025Tpi.Domain.Entities;
 using Dsw2025Tpi.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 namespace Dsw2025Tpi.Api;
 
 public class Program
@@ -26,7 +27,7 @@ public class Program
             options.UseSqlServer(builder.Configuration.GetConnectionString("Dsw2025TpiEntities"));
             options.UseSeeding((c, t) =>
             {
-                ((Dsw2025TpiContext)c).Seedwork<Customer>(""..", "..", "..", "..", "Dsw2025Tpi.Data", "Sources", "customers.json"");
+                ((Dsw2025TpiContext)c).Seedwork<Customer>("Sources//customers.json");
             });
         });
         builder.Services.AddScoped<IRepository, EfRepository>();
