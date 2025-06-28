@@ -8,6 +8,7 @@ public class Product : EntityBase
     }
     public Product(string sku, string internalCode, string name, string description, decimal price, int stockQuantity)
     {
+
         Sku = sku;
         InternalCode = internalCode;
         Name = name;
@@ -15,6 +16,7 @@ public class Product : EntityBase
         CurrentUnitPrice = price;
         StockQuantity = stockQuantity;
         IsActive = true;
+
     }
     public string? Sku { get; set; }
     public string? InternalCode { get; set; }
@@ -23,5 +25,4 @@ public class Product : EntityBase
     public decimal CurrentUnitPrice { get; set; }
     public int StockQuantity { get; set; }
     public bool IsActive { get; set; }
-    public ICollection<OrderItem> OrderItems { get; } = new HashSet<OrderItem>();
 }

@@ -1,4 +1,5 @@
 using Dsw2025Tpi.Application.Dtos;
+using Dsw2025Tpi.Application.Exceptions;
 using Dsw2025Tpi.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using ApplicationException = Dsw2025Tpi.Application.Exceptions.ApplicationException;
@@ -17,12 +18,13 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost()]
-    public async Task<IActionResult> AddProduct([FromBody] ProductModel.Request request)
+    public async Task<IActionResult> AddProduct([FromBody] ProductModel.Request request, CreatedResult createdResult)
     {
         try
         {
             var product = await _service.AddProduct(request);
-            return Created(product);
+            return CreatedAtAction(nameof());
+
         }
         catch (ArgumentException ae)
         {
@@ -33,6 +35,15 @@ public class ProductsController : ControllerBase
             return Problem("Se produjo un error al guardar el producto");
         }
     }
+
+    [HttpGet()]
+    public async Task<IActionResult> GetProducts()
+    {
+        var products = await _service.GetProducts();
+        if (products == null || !products.Any()) return NoContent();
+        return Ok(products);
+    }
+
     [HttpPost("{id}")]
     public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductModel.Request request)
     {
@@ -54,4 +65,22 @@ public class ProductsController : ControllerBase
             return Problem("Se produjo un error al actualizar el producto");
         }
     }
+
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> DisableProduct(Guid productId)
+    {
+        try
+        {
+            var product = await _service.DisableProduct(productId);
+            return Ok(product);
+        }
+        catch (EntityNotFoundException en)
+        {
+
+            return NotFound(en.Message);
+
+        }
+
+    }
+
 }
