@@ -18,7 +18,7 @@ namespace Dsw2025Tpi.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true)
+                    PhoneNumber = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: true)
                 },
                 constraints: table =>
                 {

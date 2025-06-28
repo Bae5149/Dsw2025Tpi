@@ -25,7 +25,7 @@ public class Dsw2025TpiContext: DbContext
             .HasMaxLength(50)
             .IsRequired();
             eb.Property(p => p.PhoneNumber)
-            .HasMaxLength(10);
+            .HasMaxLength(20);
         });
         modelBuilder.Entity<Product>(eb =>
         {

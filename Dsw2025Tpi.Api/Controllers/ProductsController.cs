@@ -55,20 +55,20 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost("{id}")]
-    public async Task<IActionResult> UpdateProduct([FromBody] ProductModel.Request request)
+    public async Task<IActionResult> UpdateProduct(Guid id,[FromBody] ProductModel.Request request)
     {
         try
         {
-            var product = await _service.UpdateProduct(request);
+            var product = await _service.UpdateProduct(id,request);
             return Ok(product);
         }
         catch (ArgumentException ae)
         {
             return BadRequest(ae.Message);
         }
-        catch (KeyNotFoundException nf)
+        catch (EntityNotFoundException en)
         {
-            return NotFound(nf.Message);
+            return NotFound(en.Message);
         }
         catch (Exception)
         {
@@ -77,11 +77,11 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPatch("{id}")]
-    public async Task<IActionResult> DisableProduct(Guid productId)
+    public async Task<IActionResult> DisableProduct(Guid id)
     {
         try
         {
-            var product = await _service.DisableProduct(productId);
+            var product = await _service.DisableProduct(id);
             return Ok(product);
         }
         catch (EntityNotFoundException en)
@@ -103,9 +103,20 @@ public class ProductsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetProductById(Guid id)
     {
-        var product = await _service.GetProductById(id);
-        if (product == null) return NotFound();
-        return Ok(product);
+
+        try 
+        { 
+            var product = await _service.GetProductById(id);
+            return Ok(product);
+        }
+        catch (EntityNotFoundException en)
+        {
+
+            return NotFound(en.Message);
+
+        }
+        //if (product == null) return NotFound();
+
     }
 
 }
