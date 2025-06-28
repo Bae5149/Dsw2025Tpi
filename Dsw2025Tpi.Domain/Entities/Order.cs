@@ -8,7 +8,7 @@ public class Order: EntityBase
     {
 
     }
-    public Order(DateTime date, string shippingAdress, string billingAdress, string notes, decimal totalAmount, Guid customerId, OrderStatus status)
+    public Order(DateTime date, string shippingAdress, string billingAdress, string notes, decimal totalAmount, Guid customerId)
     {
         Date = date;
         ShippingAdress = shippingAdress;
@@ -16,7 +16,7 @@ public class Order: EntityBase
         Notes = notes;
         TotalAmount = totalAmount;
         CustomerId = customerId;
-        Status = status;
+        Status = OrderStatus.Pending;
     }
     public DateTime Date { get; set; }
     public string? ShippingAdress { get; set; }

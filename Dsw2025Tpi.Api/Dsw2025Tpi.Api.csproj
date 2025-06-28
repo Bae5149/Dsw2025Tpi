@@ -21,4 +21,9 @@
     <ProjectReference Include="..\Dsw2025Tpi.Domain\Dsw2025Tpi.Domain.csproj" />
   </ItemGroup>
 
+<PropertyGroup>
+  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  <NoWarn>$(NoWarn);1591</NoWarn> <!-- Opcional: evita warnings por comentarios faltantes -->
+</PropertyGroup>
+
 </Project>

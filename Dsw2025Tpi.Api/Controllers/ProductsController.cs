@@ -9,6 +9,7 @@ namespace Dsw2025Tpi.Api.Controllers;
 
 [ApiController]
 [Route("api/products")]
+[Tags("Products")]
 public class ProductsController : ControllerBase
 {
     private readonly ProductsManagementService _service;
