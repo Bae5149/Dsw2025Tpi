@@ -24,6 +24,6 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
-<ItemGroup>
+</ItemGroup>
 
 </Project>
