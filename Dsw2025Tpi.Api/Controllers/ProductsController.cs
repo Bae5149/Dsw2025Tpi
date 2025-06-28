@@ -19,7 +19,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost()]
-    public async Task<IActionResult> AddProduct([FromBody] ProductModel.Request request, CreatedResult createdResult)
+    public async Task<IActionResult> AddProduct([FromBody] ProductModel.Request request)
     {
         try
         {
