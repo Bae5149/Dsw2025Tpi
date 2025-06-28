@@ -83,4 +83,13 @@ public class ProductsController : ControllerBase
 
     }
 
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetProductById(Guid id)
+    {
+        var product = await _service.GetProductById(id);
+        if (product == null) return NotFound();
+        return Ok(product);
+    }
+
 }
