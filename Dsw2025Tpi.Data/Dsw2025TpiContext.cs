@@ -70,7 +70,7 @@ public class Dsw2025TpiContext: DbContext
             eb.HasKey(p => p.Id);
             eb.Property(p => p.OrderId)
             .IsRequired();
-            eb.Property(p => p.Product.Id)
+            eb.Property(p => p.ProductId)
             .IsRequired();
             eb.Property(p => p.Quantity)
             .IsRequired();

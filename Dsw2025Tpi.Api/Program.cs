@@ -23,10 +23,10 @@ public class Program
         builder.Services.AddHealthChecks();
         builder.Services.AddDbContext<Dsw2025TpiContext>(options =>
         {
-            options.UseSqlServer(builder.Configuration.GetConnectionString("Dsw2025Ej15Entities"));
+            options.UseSqlServer(builder.Configuration.GetConnectionString("Dsw2025TpiEntities"));
             options.UseSeeding((c, t) =>
             {
-                ((Dsw2025TpiContext)c).Seedwork<Customer>("Sources\\customers.json");
+                ((Dsw2025TpiContext)c).Seedwork<Customer>(""..", "..", "..", "..", "Dsw2025Tpi.Data", "Sources", "customers.json"");
             });
         });
         builder.Services.AddScoped<IRepository, EfRepository>();
