@@ -69,7 +69,7 @@ public class OrdersManagementService
             await _repository.Add(item);
         }
 
-        return new OrderModel.OrderResponse(order.Date,order.ShippingAdress,order.BillingAdress,order.Notes,order.TotalAmount,order.CustomerId.Value,order.Id);
+        return new OrderModel.OrderResponse(order.Date,request.shippingAdress,request.billingAdress,order.Notes,total,request.customerId,order.Id);
     }
 
 }
