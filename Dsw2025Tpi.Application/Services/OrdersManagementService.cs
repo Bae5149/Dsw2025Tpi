@@ -34,7 +34,7 @@ public class OrdersManagementService
         return new ProductModel.Response(product.Id, product.Sku, product.Name,product.CurrentUnitPrice);
     }*/
 
-    public async Task<OrderModel.Response> AddOrder(OrderModel.OrderRequest request)
+    public async Task<OrderModel.OrderResponse> AddOrder(OrderModel.OrderRequest request)
     {
         var orderItems = new List<OrderItem>();
         decimal total = 0;
@@ -45,25 +45,31 @@ public class OrdersManagementService
 
         foreach (var item in request.OrderItems)
         {
-            var product = await _repository.GetById<Product>(item.ProductId);
+            var product = await _repository.GetById<Product>(item.productId);
             if (product == null)
-                throw new Exception($"Producto {item.ProductId} no encontrado");
+                throw new Exception($"Producto {item.productId} no encontrado");
 
-            if (product.StockQuantity < item.Quantity)
+            if (product.StockQuantity < item.quantity)
                 throw new InsufficientStockException($"Stock insuficiente para {product.Name}");
 
 
-            product.StockQuantity -= item.Quantity;
+            product.StockQuantity -= item.quantity;
             await _repository.Update(product);
 
-            var subtotal = item.Quantity * item.CurrentUnitPrice;
+            var subtotal = item.quantity * item.currentUnitPrice;
             total = total + subtotal;
-            orderItems.Add(new OrderItem(item.Quantity, item.CurrentUnitPrice, product.Id,subtotal));
+            orderItems.Add(new OrderItem(item.quantity, item.currentUnitPrice, product.Id,subtotal));
         }
 
-        var order = new Order(DateTime.Today, request.shippingAdress, request.billingAdress, "algo", total, request.customerId);
+        var order = new Order(DateTime.Today, request.shippingAdress, request.billingAdress, "notas", total, request.customerId);
         await _repository.Add(order);
-        return new OrderModel.Response(order.Date,order.ShippingAdress,order.BillingAdress,order.Notes,order.TotalAmount,order.CustomerId.Value,order.Id);
+        foreach (var item in orderItems)
+        {
+            item.OrderId = order.Id;
+            await _repository.Add(item);
+        }
+
+        return new OrderModel.OrderResponse(order.Date,order.ShippingAdress,order.BillingAdress,order.Notes,order.TotalAmount,order.CustomerId.Value,order.Id);
     }
 
 }

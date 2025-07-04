@@ -45,7 +45,8 @@ public class Program
         });
         builder.Services.AddScoped<IRepository, EfRepository>();
         builder.Services.AddTransient<ProductsManagementService>();
-
+        builder.Services.AddTransient<OrdersManagementService>();
+        builder.Services.AddTransient<CustomersManagementService>();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

@@ -15,23 +15,23 @@ public class ProductsManagementService
         _repository = repository;
     }
 
-    public async Task<ProductModel.Response?> GetProductById(Guid id)
+    public async Task<ProductModel.ProductResponse?> GetProductById(Guid id)
     {
         var product = await _repository.GetById<Product>(id);
         return product != null ?
-            new ProductModel.Response(product.Id, product.Sku, product.Name, product.CurrentUnitPrice) :
+            new ProductModel.ProductResponse(product.Id, product.Sku, product.Name, product.CurrentUnitPrice) :
             throw new EntityNotFoundException("No se encontro el producto que se desea obtener");
     }
 
-    public async Task<IEnumerable<ProductModel.Response>?> GetProducts()
+    public async Task<IEnumerable<ProductModel.ProductResponse>?> GetProducts()
     {
         return (await _repository
             .GetFiltered<Product>(p => p.IsActive))?
-            .Select(p => new ProductModel.Response(p.Id, p.Sku, p.Name, 
+            .Select(p => new ProductModel.ProductResponse(p.Id, p.Sku, p.Name, 
             p.CurrentUnitPrice));
     }
 
-    public async Task<ProductModel.Response> AddProduct(ProductModel.Request request)
+    public async Task<ProductModel.ProductResponse> AddProduct(ProductModel.ProductRequest request)
     {
         if(string.IsNullOrWhiteSpace(request.Sku)) throw new ArgumentException("Valor del Sku para el producto no válido");
         if(string.IsNullOrWhiteSpace(request.Description)) throw new ArgumentException("Valor para la descripcion del producto no válida");
@@ -44,11 +44,11 @@ public class ProductsManagementService
         if (exist != null) throw new DuplicatedEntityException($"Ya existe un producto con el Sku {request.Sku}");
         var product = new Product(request.Sku, request.InternalCode, request.Name,request.Description, request.Price,request.StockQuantity);
         await _repository.Add(product);
-        return new ProductModel.Response(product.Id, product.Sku, product.Name,
+        return new ProductModel.ProductResponse(product.Id, product.Sku, product.Name,
             product.CurrentUnitPrice);
     }
 
-    public async Task<ProductModel.Response?> UpdateProduct(Guid id,ProductModel.Request request)
+    public async Task<ProductModel.ProductResponse?> UpdateProduct(Guid id,ProductModel.ProductRequest request)
     {
         if (string.IsNullOrWhiteSpace(request.Sku)) throw new ArgumentException("Valor del Sku para el producto no válido");
         if (string.IsNullOrWhiteSpace(request.Description)) throw new ArgumentException("Valor para la descripcion del producto no válida");
@@ -67,16 +67,16 @@ public class ProductsManagementService
         product.StockQuantity = request.StockQuantity;
         product.CurrentUnitPrice = request.Price;
         product = await _repository.Update(product);
-        return new ProductModel.Response(product.Id, product.Sku, product.Name, product.CurrentUnitPrice);
+        return new ProductModel.ProductResponse(product.Id, product.Sku, product.Name, product.CurrentUnitPrice);
 
     }
 
-    public async Task<ProductModel.Response?> DisableProduct(Guid id)
+    public async Task<ProductModel.ProductResponse?> DisableProduct(Guid id)
     {
         var product = await _repository.GetById<Product>(id);
         if (product == null) throw new EntityNotFoundException($"No se encontro el producto {id} que se desea obtener");
         product.IsActive = false;
         product = await _repository.Update(product);
-        return new ProductModel.Response(product.Id, product.Sku, product.Name, product.CurrentUnitPrice);
+        return new ProductModel.ProductResponse(product.Id, product.Sku, product.Name, product.CurrentUnitPrice);
     }
 }

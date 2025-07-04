@@ -20,7 +20,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost()]
-    public async Task<IActionResult> AddProduct([FromBody] ProductModel.Request request)
+    public async Task<IActionResult> AddProduct([FromBody] ProductModel.ProductRequest request)
     {
         try
         {
@@ -56,7 +56,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost("{id}")]
-    public async Task<IActionResult> UpdateProduct(Guid id,[FromBody] ProductModel.Request request)
+    public async Task<IActionResult> UpdateProduct(Guid id,[FromBody] ProductModel.ProductRequest request)
     {
         try
         {

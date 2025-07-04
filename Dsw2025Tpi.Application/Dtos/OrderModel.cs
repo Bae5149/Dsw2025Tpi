@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Dsw2025Tpi.Application.Dtos;
     public record OrderModel
     {
-        public record OrderRequest(string shippingAdress, string billingAdress, Guid customerId, List<OrderItemDto> OrderItems);//no implementado
+        public record OrderRequest(string shippingAdress, string billingAdress, Guid customerId, List<OrderItemModel> OrderItems);//no implementado
 
-        public record Response(DateTime date, string shippingAdress, string billingAdress, string notes, decimal totalAmount, Guid customerId, Guid OrderId);// copiado de la entidad tal cual
+        public record OrderResponse(DateTime date, string shippingAdress, string billingAdress, string notes, decimal totalAmount, Guid customerId, Guid OrderId);// copiado de la entidad tal cual
     }
