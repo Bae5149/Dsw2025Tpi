@@ -38,5 +38,20 @@ public class OrdersController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetOrderById(Guid id)
+    {
+        try
+        {
+            var order = await _service.GetOrderById(id);
+            return Ok(order);
+        }
+        catch (EntityNotFoundException en)
+        {
+
+            return NotFound(en.Message);
+
+        }
+    }
 }
 

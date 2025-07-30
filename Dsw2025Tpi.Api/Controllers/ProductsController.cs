@@ -116,8 +116,5 @@ public class ProductsController : ControllerBase
             return NotFound(en.Message);
 
         }
-        //if (product == null) return NotFound();
-
     }
-
 }

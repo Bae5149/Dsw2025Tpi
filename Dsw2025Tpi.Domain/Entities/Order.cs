@@ -23,7 +23,7 @@ public class Order: EntityBase
     public string? BillingAdress { get; set; }
     public string? Notes { get; set; }
     public decimal TotalAmount { get; set; }
-    public Guid? CustomerId { get; set; }
+    public Guid CustomerId { get; set; }
     public OrderStatus Status { get; set; }
     public ICollection<OrderItem> OrderItems { get; } = new HashSet<OrderItem>();
 }

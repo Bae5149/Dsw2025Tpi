@@ -16,24 +16,6 @@ public class OrdersManagementService
     {
         _repository = repository;
     }
-
-    /*public async Task<OrderModel.Response> AddOrder(ProductModel.Request request) //pendiente de modificar
-    {
-        if (string.IsNullOrWhiteSpace(request.Sku) || 
-            string.IsNullOrWhiteSpace(request.Name) ||
-            request. < 0)
-        {
-            throw new ArgumentException("Valores para el producto no válidos");
-        }
-
-        var exist = await _repository.First<Order>(p => p.Sku == request.Sku);
-        if (exist != null) throw new DuplicatedEntityException($"Ya existe un producto con el Sku {request.Sku}");
-
-        var order = new Order(request.);
-        await _repository.Add(product);
-        return new ProductModel.Response(product.Id, product.Sku, product.Name,product.CurrentUnitPrice);
-    }*/
-
     public async Task<OrderModel.OrderResponse> AddOrder(OrderModel.OrderRequest request)
     {
         var orderItems = new List<OrderItem>();
@@ -71,5 +53,11 @@ public class OrdersManagementService
 
         return new OrderModel.OrderResponse(order.Date,request.shippingAdress,request.billingAdress,order.Notes,total,request.customerId,order.Id);
     }
-
+    public async Task<OrderModel.OrderResponse?> GetOrderById(Guid id)
+    {
+        var order = await _repository.GetById<Order>(id);
+        return order != null ?
+            new OrderModel.OrderResponse(order.Date, order.ShippingAdress, order.BillingAdress, order.Notes, order.TotalAmount, order.CustomerId,order.Id) :
+            throw new EntityNotFoundException("No se encontro la orden que se desea obtener");
+    }
 }
